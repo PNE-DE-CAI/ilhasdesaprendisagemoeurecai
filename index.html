@@ -4,362 +4,66 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Ilhas de Aprendizagem · URE-CAIEIRAS</title>
-<!-- Fontes e ícones -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<!-- Biblioteca para gerar PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(145deg, #0a2f6c 0%, #041a3a 100%);
-    min-height: 100vh;
-    color: #1e293b;
-  }
-
-  /* Container principal com borda vermelha característica */
-  .main-container {
-    max-width: 1400px;
-    margin: 20px auto;
-    background: #0f1a24;
-    border-radius: 48px;
-    padding: 20px;
-    box-shadow: 0 30px 35px rgba(0,0,0,0.5), inset 0 1px 4px rgba(255,255,200,0.1);
-    border: 1px solid #d32f2f;
-  }
-
-  /* Header idêntico ao do sistema OE */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(10, 47, 108, 0.85);
-    backdrop-filter: blur(4px);
-    padding: 12px 24px;
-    border-radius: 60px;
-    margin-bottom: 25px;
-    flex-wrap: wrap;
-    gap: 15px;
-  }
-  .logo-area {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .logo-area img {
-    max-height: 50px;
-    width: auto;
-    background: white;
-    border-radius: 12px;
-    padding: 4px;
-  }
-  .logo-area span {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #ffec9e;
-  }
-  .title-badge {
-    background: #d32f2f;
-    color: white;
-    padding: 6px 18px;
-    border-radius: 3rem;
-    font-weight: bold;
-    letter-spacing: 1px;
-    font-size: 0.9rem;
-  }
-
-  /* Layout com sidebar */
-  .app-layout {
-    display: flex;
-    gap: 1.5rem;
-    min-height: calc(100vh - 140px);
-  }
-
-  /* Sidebar */
-  .sidebar {
-    width: 260px;
-    min-width: 260px;
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(4px);
-    border-radius: 32px;
-    padding: 1.5rem 1rem;
-    border: 1px solid rgba(255,255,255,0.15);
-    height: fit-content;
-  }
-
-  .sidebar-title {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #b4c8e0;
-    padding: 0.5rem 0.8rem;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-  }
-
-  .sidebar-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    padding: 0.7rem 1rem;
-    background: transparent;
-    border: none;
-    border-radius: 40px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    font-family: 'Inter', sans-serif;
-    color: #e2e8f0;
-    cursor: pointer;
-    transition: 0.2s;
-    text-align: left;
-  }
-  .sidebar-item svg {
-    width: 18px;
-    height: 18px;
-    stroke: currentColor;
-    fill: none;
-  }
+  body { font-family: 'Inter', sans-serif; background: linear-gradient(145deg, #0a2f6c 0%, #041a3a 100%); min-height: 100vh; color: #1e293b; }
+  .main-container { max-width: 1400px; margin: 20px auto; background: #0f1a24; border-radius: 48px; padding: 20px; box-shadow: 0 30px 35px rgba(0,0,0,0.5), inset 0 1px 4px rgba(255,255,200,0.1); border: 1px solid #d32f2f; }
+  .header { display: flex; justify-content: space-between; align-items: center; background: rgba(10, 47, 108, 0.85); backdrop-filter: blur(4px); padding: 12px 24px; border-radius: 60px; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+  .logo-area { display: flex; align-items: center; gap: 12px; }
+  .logo-area img { max-height: 50px; width: auto; background: white; border-radius: 12px; padding: 4px; }
+  .logo-area span { font-size: 1.2rem; font-weight: 600; color: #ffec9e; }
+  .title-badge { background: #d32f2f; color: white; padding: 6px 18px; border-radius: 3rem; font-weight: bold; letter-spacing: 1px; font-size: 0.9rem; }
+  .app-layout { display: flex; gap: 1.5rem; min-height: calc(100vh - 140px); }
+  .sidebar { width: 260px; min-width: 260px; background: rgba(255,255,255,0.08); backdrop-filter: blur(4px); border-radius: 32px; padding: 1.5rem 1rem; border: 1px solid rgba(255,255,255,0.15); height: fit-content; }
+  .sidebar-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #b4c8e0; padding: 0.5rem 0.8rem; margin-bottom: 0.5rem; font-weight: 600; }
+  .sidebar-item { display: flex; align-items: center; gap: 12px; width: 100%; padding: 0.7rem 1rem; background: transparent; border: none; border-radius: 40px; font-size: 0.85rem; font-weight: 500; font-family: 'Inter', sans-serif; color: #e2e8f0; cursor: pointer; transition: 0.2s; text-align: left; }
   .sidebar-item i { width: 20px; }
-  .sidebar-item:hover {
-    background: rgba(211, 47, 47, 0.3);
-    color: white;
-  }
-  .sidebar-item.active {
-    background: #d32f2f;
-    color: white;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  }
-  .badge-count {
-    margin-left: auto;
-    background: rgba(255,255,255,0.2);
-    padding: 2px 8px;
-    border-radius: 30px;
-    font-size: 0.7rem;
-    font-weight: 600;
-  }
-  .sidebar-item.active .badge-count {
-    background: rgba(255,255,255,0.3);
-  }
-
-  /* Conteúdo principal */
-  main {
-    flex: 1;
-    background: transparent;
-  }
-
-  .view {
-    display: none;
-    animation: fadeIn 0.3s ease;
-  }
+  .sidebar-item:hover { background: rgba(211, 47, 47, 0.3); color: white; }
+  .sidebar-item.active { background: #d32f2f; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+  .badge-count { margin-left: auto; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 30px; font-size: 0.7rem; font-weight: 600; }
+  main { flex: 1; background: transparent; }
+  .view { display: none; animation: fadeIn 0.3s ease; }
   .view.active { display: block; }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px);}
-    to { opacity: 1; transform: translateY(0);}
-  }
-
-  /* Cards */
-  .card {
-    background: white;
-    border-radius: 32px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    border: 1px solid #e0e4e9;
-  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: translateY(0);} }
+  .card { background: white; border-radius: 32px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border: 1px solid #e0e4e9; }
   .card-sm { padding: 1rem 1.25rem; }
-
-  /* Botões */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, #0a2f6c, #052050);
-    color: white;
-    border: none;
-    border-radius: 60px;
-    padding: 8px 20px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
-    font-size: 0.85rem;
-    font-family: 'Inter', sans-serif;
-  }
-  .btn:hover {
-    background: #d32f2f;
-    transform: translateY(-2px);
-  }
-  .btn-secondary {
-    background: #64748b;
-  }
+  .btn { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #0a2f6c, #052050); color: white; border: none; border-radius: 60px; padding: 8px 20px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 0.85rem; font-family: 'Inter', sans-serif; }
+  .btn:hover { background: #d32f2f; transform: translateY(-2px); }
+  .btn-secondary { background: #64748b; }
   .btn-primary { background: linear-gradient(135deg, #0a2f6c, #052050); }
   .btn-danger { background: #ef4444; }
   .btn-sm { padding: 5px 14px; font-size: 0.75rem; }
-
-  /* Tabelas */
-  .table-wrap {
-    overflow-x: auto;
-    border-radius: 16px;
-    border: 1px solid #e0e4e9;
-    background: white;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.85rem;
-  }
-  thead th {
-    background: #0a2f6c;
-    color: white;
-    padding: 10px 16px;
-    text-align: left;
-    font-weight: 600;
-    font-size: 0.8rem;
-  }
-  tbody td {
-    padding: 10px 16px;
-    border-bottom: 1px solid #e5e7eb;
-    vertical-align: middle;
-  }
-  tbody tr:hover td {
-    background: #f8fafc;
-  }
-
-  /* Badges de proficiência */
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 3px 10px;
-    border-radius: 30px;
-    font-size: 0.7rem;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  .badge-abaixo {
-    background: #fef2f2;
-    color: #d32f2f;
-  }
-  .badge-basico {
-    background: #e6f1fb;
-    color: #0a2f6c;
-  }
-  .badge-proficiente {
-    background: #e6f7e6;
-    color: #22c55e;
-  }
-
-  /* Estatísticas */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-  .stat-card {
-    background: white;
-    border-radius: 28px;
-    padding: 1rem 1.25rem;
-    border: 1px solid #e0e4e9;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  }
-  .stat-label {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #64748b;
-    margin-bottom: 0.3rem;
-  }
-  .stat-value {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #0a2f6c;
-    line-height: 1.2;
-  }
-  .prog-bar {
-    height: 6px;
-    background: #e2e8f0;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 8px;
-  }
-  .prog-fill {
-    height: 100%;
-    border-radius: 10px;
-  }
-
-  /* Ilhas de Aprendizagem */
-  .islands-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-  @media (max-width: 900px) {
-    .islands-grid { grid-template-columns: 1fr; }
-  }
-  .island-card {
-    border-radius: 24px;
-    overflow: hidden;
-    border: 1px solid #e0e4e9;
-    background: white;
-  }
-  .island-header {
-    padding: 1rem 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+  .table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid #e0e4e9; background: white; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  thead th { background: #0a2f6c; color: white; padding: 10px 16px; text-align: left; font-weight: 600; font-size: 0.8rem; }
+  tbody td { padding: 10px 16px; border-bottom: 1px solid #e5e7eb; vertical-align: middle; }
+  tbody tr:hover td { background: #f8fafc; }
+  .badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 30px; font-size: 0.7rem; font-weight: 600; white-space: nowrap; }
+  .badge-abaixo { background: #fef2f2; color: #d32f2f; }
+  .badge-basico { background: #e6f1fb; color: #0a2f6c; }
+  .badge-proficiente { background: #e6f7e6; color: #22c55e; }
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .stat-card { background: white; border-radius: 28px; padding: 1rem 1.25rem; border: 1px solid #e0e4e9; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .stat-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: #64748b; margin-bottom: 0.3rem; }
+  .stat-value { font-size: 1.8rem; font-weight: 800; color: #0a2f6c; line-height: 1.2; }
+  .prog-bar { height: 6px; background: #e2e8f0; border-radius: 10px; overflow: hidden; margin-top: 8px; }
+  .prog-fill { height: 100%; border-radius: 10px; }
+  .islands-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  @media (max-width: 900px) { .islands-grid { grid-template-columns: 1fr; } }
+  .island-card { border-radius: 24px; overflow: hidden; border: 1px solid #e0e4e9; background: white; }
+  .island-header { padding: 1rem 1.25rem; display: flex; align-items: center; justify-content: space-between; }
   .island-1 .island-header { background: #fef2f2; }
   .island-2 .island-header { background: #e6f1fb; }
   .island-3 .island-header { background: #e6f7e6; }
-  .island-title {
-    font-weight: 700;
-    font-size: 0.95rem;
-  }
-  .island-role {
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 30px;
-    background: white;
-  }
-  .island-body {
-    padding: 0.75rem;
-    background: white;
-  }
-  .student-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #f8fafc;
-    border: 1px solid #e0e4e9;
-    border-radius: 40px;
-    padding: 4px 12px;
-    font-size: 0.75rem;
-    margin: 4px;
-    cursor: pointer;
-    transition: 0.1s;
-  }
-  .student-chip:hover {
-    border-color: #d32f2f;
-    background: #fef2f2;
-  }
-  .avatar-xs {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.7rem;
-    font-weight: 700;
-    background: #e2e8f0;
-    color: #0a2f6c;
-  }
-
-  /* Dropzone, modais, filtros (mantidos) */
+  .island-title { font-weight: 700; font-size: 0.95rem; }
+  .island-role { font-size: 0.7rem; font-weight: 600; padding: 3px 10px; border-radius: 30px; background: white; }
+  .island-body { padding: 0.75rem; background: white; }
+  .student-chip { display: inline-flex; align-items: center; gap: 6px; background: #f8fafc; border: 1px solid #e0e4e9; border-radius: 40px; padding: 4px 12px; font-size: 0.75rem; margin: 4px; cursor: pointer; }
+  .student-chip:hover { border-color: #d32f2f; background: #fef2f2; }
+  .avatar-xs { width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; background: #e2e8f0; color: #0a2f6c; }
   .filter-bar { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.5rem; }
   .filter-bar input, .filter-bar select { width: auto; min-width: 160px; padding: 8px 12px; border-radius: 12px; border: 1px solid #cbd5e1; font-family: 'Inter', sans-serif; }
   .legend { display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; color: #e2e8f0; }
@@ -387,15 +91,10 @@
 <body>
 <div class="main-container">
   <div class="header">
-    <div class="logo-area">
-      <img src="https://i.ibb.co/0p01LzxB/logo3de.jpg" alt="Logo">
-      <span>Ilhas de Aprendizagem</span>
-    </div>
+    <div class="logo-area"><img src="https://i.ibb.co/0p01LzxB/logo3de.jpg" alt="Logo"><span>Ilhas de Aprendizagem</span></div>
     <div class="title-badge"><i class="fas fa-chalkboard-user"></i> URE-CAIEIRAS OE-MT & LP</div>
   </div>
-
   <div class="app-layout">
-    <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sidebar-title">Navegação</div>
       <button class="sidebar-item active" onclick="showView('dashboard')"><i class="fas fa-chart-pie"></i> Painel geral<span class="badge-count" id="sb-total">0</span></button>
@@ -411,88 +110,40 @@
         <button class="sidebar-item" onclick="clearAll()" style="color: #f87171;"><i class="fas fa-trash-alt"></i> Limpar tudo</button>
       </div>
     </aside>
-
-    <!-- MAIN CONTENT -->
     <main>
-      <!-- DASHBOARD VIEW -->
+      <!-- DASHBOARD -->
       <div class="view active" id="view-dashboard">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-          <div>
-            <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #ffec9e;">Painel geral</h2>
-            <p style="color: #b4c8e0;">Visão consolidada de todas as turmas e estudantes</p>
-          </div>
-          <div class="flex gap-2">
-            <button class="btn btn-primary btn-sm" onclick="gerarRelatorioPDF()"><i class="fas fa-file-pdf"></i> Exportar Relatório PDF</button>
-            <button class="btn btn-secondary btn-sm" onclick="showView('importar')"><i class="fas fa-file-csv"></i> Importar CSV</button>
-            <button class="btn btn-primary btn-sm" onclick="openModal('add-student')"><i class="fas fa-plus"></i> Novo estudante</button>
-          </div>
+          <div><h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #ffec9e;">Painel geral</h2><p style="color: #b4c8e0;">Visão consolidada de todas as turmas e estudantes</p></div>
+          <div class="flex gap-2"><button class="btn btn-primary btn-sm" onclick="gerarRelatorioPDF()"><i class="fas fa-file-pdf"></i> Exportar Relatório PDF</button><button class="btn btn-secondary btn-sm" onclick="showView('importar')"><i class="fas fa-file-csv"></i> Importar CSV</button><button class="btn btn-primary btn-sm" onclick="openModal('add-student')"><i class="fas fa-plus"></i> Novo estudante</button></div>
         </div>
-        <div class="stats-row" id="stats-row">
+        <div class="stats-row">
           <div class="stat-card"><div class="stat-label">Total estudantes</div><div class="stat-value" id="stat-total">0</div><div class="stat-sub">em <span id="stat-turmas">0</span> turmas</div></div>
           <div class="stat-card"><div class="stat-label">Abaixo do básico</div><div class="stat-value" id="stat-abb" style="color:#d32f2f">0</div><div class="prog-bar"><div class="prog-fill" id="prog-abb" style="background:#d32f2f;width:0%"></div></div></div>
           <div class="stat-card"><div class="stat-label">Básico</div><div class="stat-value" id="stat-bas" style="color:#0a2f6c">0</div><div class="prog-bar"><div class="prog-fill" id="prog-bas" style="background:#0a2f6c;width:0%"></div></div></div>
           <div class="stat-card"><div class="stat-label">Proficiente</div><div class="stat-value" id="stat-pro" style="color:#22c55e">0</div><div class="prog-bar"><div class="prog-fill" id="prog-pro" style="background:#22c55e;width:0%"></div></div></div>
         </div>
-        <div id="dashboard-empty" class="card" style="display:none; text-align: center;">
-          <i class="fas fa-chalkboard" style="font-size: 3rem; color: #cbd5e1;"></i>
-          <h3 style="margin-top: 0.5rem;">Nenhum dado ainda</h3>
-          <p>Importe um arquivo CSV ou adicione estudantes manualmente.</p>
-          <button class="btn" onclick="showView('importar')"><i class="fas fa-upload"></i> Importar CSV</button>
-        </div>
+        <div id="dashboard-empty" class="card" style="display:none; text-align: center;"><i class="fas fa-chalkboard" style="font-size: 3rem; color: #cbd5e1;"></i><h3 style="margin-top: 0.5rem;">Nenhum dado ainda</h3><p>Importe um arquivo CSV ou adicione estudantes manualmente.</p><button class="btn" onclick="showView('importar')"><i class="fas fa-upload"></i> Importar CSV</button></div>
         <div id="turmas-summary"></div>
       </div>
-
-      <!-- TURMAS VIEW -->
+      <!-- TURMAS -->
       <div class="view" id="view-turmas">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
-          <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #ffec9e;">Gerenciar turmas</h2>
-          <button class="btn btn-primary btn-sm" onclick="openModal('add-student')"><i class="fas fa-plus"></i> Adicionar estudante</button>
-        </div>
-        <div class="filter-bar">
-          <input type="text" id="search-input" placeholder="Buscar estudante..." oninput="renderTurmasTable()">
-          <select id="filter-turma" onchange="renderTurmasTable()"><option value="">Todas as turmas</option></select>
-          <select id="filter-nivel-lp" onchange="renderTurmasTable()"><option value="">Nível LP</option><option>Abaixo do Básico</option><option>Básico</option><option>Proficiente</option></select>
-          <select id="filter-nivel-mt" onchange="renderTurmasTable()"><option value="">Nível MT</option><option>Abaixo do Básico</option><option>Básico</option><option>Proficiente</option></select>
-        </div>
-        <div class="table-wrap">
-          <table id="students-table">
-            <thead><tr><th>Estudante</th><th>Turma</th><th>Aprendiz. LP</th><th>Nível LP</th><th>Aprendiz. MT</th><th>Nível MT</th><th>Ilha LP</th><th>Ilha MT</th><th style="text-align:right">Ações</th></tr></thead>
-            <tbody id="students-tbody"></tbody>
-          </table>
-        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;"><h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #ffec9e;">Gerenciar turmas</h2><button class="btn btn-primary btn-sm" onclick="openModal('add-student')"><i class="fas fa-plus"></i> Adicionar estudante</button></div>
+        <div class="filter-bar"><input type="text" id="search-input" placeholder="Buscar estudante..." oninput="renderTurmasTable()"><select id="filter-turma" onchange="renderTurmasTable()"><option value="">Todas as turmas</option></select><select id="filter-nivel-lp" onchange="renderTurmasTable()"><option value="">Nível LP</option><option>Abaixo do Básico</option><option>Básico</option><option>Proficiente</option></select><select id="filter-nivel-mt" onchange="renderTurmasTable()"><option value="">Nível MT</option><option>Abaixo do Básico</option><option>Básico</option><option>Proficiente</option></select></div>
+        <div class="table-wrap"><table id="students-table"><thead><tr><th>Estudante</th><th>Turma</th><th>Aprendiz. LP</th><th>Nível LP</th><th>Aprendiz. MT</th><th>Nível MT</th><th>Ilha LP</th><th>Ilha MT</th><th style="text-align:right">Ações</th></tr></thead><tbody id="students-tbody"></tbody></table></div>
         <div id="turmas-empty" class="card" style="display:none; text-align: center;"><i class="fas fa-user-slash"></i> Nenhum estudante encontrado</div>
       </div>
-
-      <!-- ILHAS VIEW -->
+      <!-- ILHAS -->
       <div class="view" id="view-ilhas">
-        <div style="margin-bottom: 1rem;">
-          <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #ffec9e;">Ilhas de Aprendizagem</h2>
-          <div class="flex gap-2" style="margin-top: 0.5rem;">
-            <select id="island-turma-select" onchange="renderIslands()" style="background: white;"><option value="">Selecione uma turma</option></select>
-<br></br>
-            <select id="island-component" onchange="renderIslands()"><option value="LP">Língua Portuguesa</option><option value="MT">Matemática</option></select>
-          </div>
-        </div>
+        <div style="margin-bottom: 1rem;"><h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #ffec9e;">Ilhas de Aprendizagem</h2><div class="flex gap-2" style="margin-top: 0.5rem;"><select id="island-turma-select" onchange="renderIslands()" style="background: white;"><option value="">Selecione uma turma</option></select><select id="island-component" onchange="renderIslands()"><option value="LP">Língua Portuguesa</option><option value="MT">Matemática</option></select></div></div>
         <div class="legend"><div class="legend-item"><div class="legend-dot" style="background:#d32f2f"></div> Ilha 1 · Abaixo do Básico · Foco do professor</div><div class="legend-item"><div class="legend-dot" style="background:#0a2f6c"></div> Ilha 2 · Básico · Monitor / Estagiário</div><div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div> Ilha 3 · Proficiente · Autonomia</div></div>
         <div id="islands-empty" class="card" style="display:none; text-align: center;">Selecione uma turma</div>
         <div id="islands-container"></div>
       </div>
-
-      <!-- IMPORTAR VIEW -->
+      <!-- IMPORTAR -->
       <div class="view" id="view-importar">
         <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #ffec9e; margin-bottom: 1rem;">Importar dados CSV</h2>
-        <div class="card">
-          <div class="info-box">O arquivo CSV deve conter as colunas: TURMA, ESTUDANTE, Aprendizagem Equivalente LP, StatusLP, Aprendizagem EquivalenteMT, StatusMT (separador vírgula, ponto e vírgula ou TAB).</div>
-          <div id="drop-zone" class="drop-zone" onclick="document.getElementById('csv-file').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
-            <i class="fas fa-cloud-upload-alt" style="font-size: 2.5rem; color: #94a3b8;"></i>
-            <p>Arraste o arquivo CSV aqui ou clique para selecionar</p>
-            <input type="file" id="csv-file" accept=".csv,.txt" style="display:none" onchange="handleFileSelect(event)">
-          </div>
-          <div id="import-preview" style="display:none; margin-top: 1rem;">
-            <div style="display: flex; justify-content: space-between; align-items: center;"><p><strong id="preview-count"></strong></p><div><button class="btn btn-secondary btn-sm" onclick="cancelImport()">Cancelar</button><button class="btn btn-primary btn-sm" onclick="confirmImport()">Confirmar importação</button></div></div>
-            <div class="table-wrap" style="margin-top: 1rem;"><table><thead><tr><th>#</th><th>Estudante</th><th>Turma</th><th>Aprend. LP</th><th>Status LP</th><th>Aprend. MT</th><th>Status MT</th></tr></thead><tbody id="preview-tbody"></tbody></table></div>
-          </div>
-        </div>
+        <div class="card"><div class="info-box">O arquivo CSV deve conter as colunas: TURMA, ESTUDANTE, Aprendizagem Equivalente LP, StatusLP, Aprendizagem EquivalenteMT, StatusMT (separador vírgula, ponto e vírgula ou TAB).</div><div id="drop-zone" class="drop-zone" onclick="document.getElementById('csv-file').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)"><i class="fas fa-cloud-upload-alt" style="font-size: 2.5rem; color: #94a3b8;"></i><p>Arraste o arquivo CSV aqui ou clique para selecionar</p><input type="file" id="csv-file" accept=".csv,.txt" style="display:none" onchange="handleFileSelect(event)"></div><div id="import-preview" style="display:none; margin-top: 1rem;"><div style="display: flex; justify-content: space-between; align-items: center;"><p><strong id="preview-count"></strong></p><div><button class="btn btn-secondary btn-sm" onclick="cancelImport()">Cancelar</button><button class="btn btn-primary btn-sm" onclick="confirmImport()">Confirmar importação</button></div></div><div class="table-wrap" style="margin-top: 1rem;"><table><thead><tr><th>#</th><th>Estudante</th><th>Turma</th><th>Aprend. LP</th><th>Status LP</th><th>Aprend. MT</th><th>Status MT</th></tr></thead><tbody id="preview-tbody"></tbody></table></div></div></div>
       </div>
     </main>
   </div>
@@ -509,8 +160,6 @@
 let students = JSON.parse(localStorage.getItem('ilhas_students') || '[]');
 let pendingImport = [];
 let deleteTargetId = null;
-
-// ============ PERSISTENCE ============
 function save() { localStorage.setItem('ilhas_students', JSON.stringify(students)); }
 
 // ============ NAVIGATION ============
@@ -524,7 +173,6 @@ function showView(name) {
   if (name === 'ilhas') renderIslands();
   updateCounts();
 }
-
 function updateCounts() {
   const total = students.length;
   const abb = students.filter(s => s.statusLP === 'Abaixo do Básico' || s.statusMT === 'Abaixo do Básico').length;
@@ -549,16 +197,9 @@ function updateCounts() {
   const turmaSet = [...new Set(students.map(s => s.turma))].sort();
   const filterTurma = document.getElementById('filter-turma');
   const islandTurma = document.getElementById('island-turma-select');
-  if (filterTurma) {
-    const cur = filterTurma.value;
-    filterTurma.innerHTML = '<option value="">Todas as turmas</option>' + turmaSet.map(t => `<option value="${t}" ${t===cur?'selected':''}>${t}</option>`).join('');
-  }
-  if (islandTurma) {
-    const cur = islandTurma.value;
-    islandTurma.innerHTML = '<option value="">Selecione uma turma</option>' + turmaSet.map(t => `<option value="${t}" ${t===cur?'selected':''}>${t}</option>`).join('');
-  }
+  if (filterTurma) { const cur = filterTurma.value; filterTurma.innerHTML = '<option value="">Todas as turmas</option>' + turmaSet.map(t => `<option value="${t}" ${t===cur?'selected':''}>${t}</option>`).join(''); }
+  if (islandTurma) { const cur = islandTurma.value; islandTurma.innerHTML = '<option value="">Selecione uma turma</option>' + turmaSet.map(t => `<option value="${t}" ${t===cur?'selected':''}>${t}</option>`).join(''); }
 }
-
 function renderDashboard() {
   updateCounts();
   const total = students.length;
@@ -566,62 +207,21 @@ function renderDashboard() {
   const turmaSet = [...new Set(students.map(s => s.turma))].sort();
   const container = document.getElementById('turmas-summary');
   if (total === 0) { container.innerHTML = ''; return; }
-  container.innerHTML = '<div style="margin-bottom:0.8rem; font-size:0.7rem; letter-spacing:0.1em; color:#b4c8e0;">POR TURMA</div>' +
-    turmaSet.map(turma => {
-      const ts = students.filter(s => s.turma === turma);
-      const abbLP = ts.filter(s => s.statusLP === 'Abaixo do Básico').length;
-      const basLP = ts.filter(s => s.statusLP === 'Básico').length;
-      const proLP = ts.filter(s => s.statusLP === 'Proficiente').length;
-      const abbMT = ts.filter(s => s.statusMT === 'Abaixo do Básico').length;
-      const basMT = ts.filter(s => s.statusMT === 'Básico').length;
-      const proMT = ts.filter(s => s.statusMT === 'Proficiente').length;
-      return `<div class="card card-sm" style="margin-bottom:1rem">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-          <div><div style="font-weight:600">${turma}</div><div style="font-size:0.7rem;color:#64748b">${ts.length} estudante(s)</div></div>
-          <button class="btn btn-secondary btn-sm" onclick="viewIslandsFor('${turma}')">Ver ilhas →</button>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-          <div><div style="font-size:0.7rem;text-transform:uppercase;color:#64748b">Língua Portuguesa</div><div style="display:flex;gap:4px;margin:4px 0">${abbLP>0?`<div style="height:6px;background:#d32f2f;flex:${abbLP}"></div>`:''}${basLP>0?`<div style="height:6px;background:#0a2f6c;flex:${basLP}"></div>`:''}${proLP>0?`<div style="height:6px;background:#22c55e;flex:${proLP}"></div>`:''}</div><div class="text-muted" style="font-size:0.7rem">⬤ ${abbLP} Abaixo · ⬤ ${basLP} Básico · ⬤ ${proLP} Prof.</div></div>
-          <div><div style="font-size:0.7rem;text-transform:uppercase;color:#64748b">Matemática</div><div style="display:flex;gap:4px;margin:4px 0">${abbMT>0?`<div style="height:6px;background:#d32f2f;flex:${abbMT}"></div>`:''}${basMT>0?`<div style="height:6px;background:#0a2f6c;flex:${basMT}"></div>`:''}${proMT>0?`<div style="height:6px;background:#22c55e;flex:${proMT}"></div>`:''}</div><div class="text-muted" style="font-size:0.7rem">⬤ ${abbMT} Abaixo · ⬤ ${basMT} Básico · ⬤ ${proMT} Prof.</div></div>
-        </div>
-      </div>`;
-    }).join('');
+  container.innerHTML = '<div style="margin-bottom:0.8rem; font-size:0.7rem; letter-spacing:0.1em; color:#b4c8e0;">POR TURMA</div>' + turmaSet.map(turma => { const ts = students.filter(s => s.turma === turma); const abbLP = ts.filter(s => s.statusLP === 'Abaixo do Básico').length; const basLP = ts.filter(s => s.statusLP === 'Básico').length; const proLP = ts.filter(s => s.statusLP === 'Proficiente').length; const abbMT = ts.filter(s => s.statusMT === 'Abaixo do Básico').length; const basMT = ts.filter(s => s.statusMT === 'Básico').length; const proMT = ts.filter(s => s.statusMT === 'Proficiente').length; return `<div class="card card-sm" style="margin-bottom:1rem"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><div><div style="font-weight:600">${turma}</div><div style="font-size:0.7rem;color:#64748b">${ts.length} estudante(s)</div></div><button class="btn btn-secondary btn-sm" onclick="viewIslandsFor('${turma}')">Ver ilhas →</button></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem"><div><div style="font-size:0.7rem;text-transform:uppercase;color:#64748b">Língua Portuguesa</div><div style="display:flex;gap:4px;margin:4px 0">${abbLP>0?`<div style="height:6px;background:#d32f2f;flex:${abbLP}"></div>`:''}${basLP>0?`<div style="height:6px;background:#0a2f6c;flex:${basLP}"></div>`:''}${proLP>0?`<div style="height:6px;background:#22c55e;flex:${proLP}"></div>`:''}</div><div class="text-muted" style="font-size:0.7rem">⬤ ${abbLP} Abaixo · ⬤ ${basLP} Básico · ⬤ ${proLP} Prof.</div></div><div><div style="font-size:0.7rem;text-transform:uppercase;color:#64748b">Matemática</div><div style="display:flex;gap:4px;margin:4px 0">${abbMT>0?`<div style="height:6px;background:#d32f2f;flex:${abbMT}"></div>`:''}${basMT>0?`<div style="height:6px;background:#0a2f6c;flex:${basMT}"></div>`:''}${proMT>0?`<div style="height:6px;background:#22c55e;flex:${proMT}"></div>`:''}</div><div class="text-muted" style="font-size:0.7rem">⬤ ${abbMT} Abaixo · ⬤ ${basMT} Básico · ⬤ ${proMT} Prof.</div></div></div></div>`; }).join('');
 }
-
 function viewIslandsFor(turma) { showView('ilhas'); setTimeout(() => { document.getElementById('island-turma-select').value = turma; renderIslands(); }, 50); }
-
 function renderTurmasTable() {
   const search = document.getElementById('search-input')?.value.toLowerCase() || '';
   const filterTurma = document.getElementById('filter-turma')?.value || '';
   const filterLP = document.getElementById('filter-nivel-lp')?.value || '';
   const filterMT = document.getElementById('filter-nivel-mt')?.value || '';
-  let filtered = students.filter(s => {
-    if (search && !s.name.toLowerCase().includes(search) && !s.turma.toLowerCase().includes(search)) return false;
-    if (filterTurma && s.turma !== filterTurma) return false;
-    if (filterLP && s.statusLP !== filterLP) return false;
-    if (filterMT && s.statusMT !== filterMT) return false;
-    return true;
-  });
-  const tbody = document.getElementById('students-tbody');
-  const emptyDiv = document.getElementById('turmas-empty');
-  const table = document.getElementById('students-table');
+  let filtered = students.filter(s => { if (search && !s.name.toLowerCase().includes(search) && !s.turma.toLowerCase().includes(search)) return false; if (filterTurma && s.turma !== filterTurma) return false; if (filterLP && s.statusLP !== filterLP) return false; if (filterMT && s.statusMT !== filterMT) return false; return true; });
+  const tbody = document.getElementById('students-tbody'); const emptyDiv = document.getElementById('turmas-empty'); const table = document.getElementById('students-table');
   if (filtered.length === 0) { emptyDiv.style.display = 'block'; table.style.display = 'none'; tbody.innerHTML = ''; return; }
   emptyDiv.style.display = 'none'; table.style.display = '';
-  tbody.innerHTML = filtered.map(s => `<tr>
-    <td><strong>${s.name}</strong></td>
-    <td>${s.turma}</td>
-    <td>${s.aprendLP || '—'}</td>
-    <td><span class="badge ${s.statusLP === 'Abaixo do Básico' ? 'badge-abaixo' : s.statusLP === 'Básico' ? 'badge-basico' : 'badge-proficiente'}">${s.statusLP}</span></td>
-    <td>${s.aprendMT || '—'}</td>
-    <td><span class="badge ${s.statusMT === 'Abaixo do Básico' ? 'badge-abaixo' : s.statusMT === 'Básico' ? 'badge-basico' : 'badge-proficiente'}">${s.statusMT}</span></td>
-    <td><span style="font-weight:500;color:${s.statusLP === 'Abaixo do Básico' ? '#d32f2f' : s.statusLP === 'Básico' ? '#0a2f6c' : '#22c55e'}">Ilha ${s.statusLP === 'Abaixo do Básico' ? 1 : s.statusLP === 'Básico' ? 2 : 3}</span></td>
-    <td><span style="font-weight:500;color:${s.statusMT === 'Abaixo do Básico' ? '#d32f2f' : s.statusMT === 'Básico' ? '#0a2f6c' : '#22c55e'}">Ilha ${s.statusMT === 'Abaixo do Básico' ? 1 : s.statusMT === 'Básico' ? 2 : 3}</span></td>
-    <td style="text-align:right"><button class="btn btn-secondary btn-sm" onclick="editStudent('${s.id}')">Editar</button> <button class="btn btn-danger btn-sm" onclick="promptDelete('${s.id}','${s.name.replace(/'/g, "\\'")}')">Remover</button></td>
-  </table>`).join('');
+  tbody.innerHTML = filtered.map(s => `<tr><td><strong>${s.name}</strong></td><td>${s.turma}</td><td>${s.aprendLP || '—'}</td><td><span class="badge ${s.statusLP === 'Abaixo do Básico' ? 'badge-abaixo' : s.statusLP === 'Básico' ? 'badge-basico' : 'badge-proficiente'}">${s.statusLP}</span></td><td>${s.aprendMT || '—'}</td><td><span class="badge ${s.statusMT === 'Abaixo do Básico' ? 'badge-abaixo' : s.statusMT === 'Básico' ? 'badge-basico' : 'badge-proficiente'}">${s.statusMT}</span></td><td><span style="font-weight:500;color:${s.statusLP === 'Abaixo do Básico' ? '#d32f2f' : s.statusLP === 'Básico' ? '#0a2f6c' : '#22c55e'}">Ilha ${s.statusLP === 'Abaixo do Básico' ? 1 : s.statusLP === 'Básico' ? 2 : 3}</span></td><td><span style="font-weight:500;color:${s.statusMT === 'Abaixo do Básico' ? '#d32f2f' : s.statusMT === 'Básico' ? '#0a2f6c' : '#22c55e'}">Ilha ${s.statusMT === 'Abaixo do Básico' ? 1 : s.statusMT === 'Básico' ? 2 : 3}</span></td><td style="text-align:right"><button class="btn btn-secondary btn-sm" onclick="editStudent('${s.id}')">Editar</button> <button class="btn btn-danger btn-sm" onclick="promptDelete('${s.id}','${s.name.replace(/'/g, "\\'")}')">Remover</button></td>`).join('');
 }
-
 function filterByLevel(level) { showView('turmas'); setTimeout(() => { document.getElementById('filter-nivel-lp').value = level; renderTurmasTable(); }, 50); }
-
 function renderIslands() {
   const turma = document.getElementById('island-turma-select')?.value;
   const comp = document.getElementById('island-component')?.value || 'LP';
@@ -635,12 +235,9 @@ function renderIslands() {
   const ilha1 = ts.filter(s => s[statusKey] === 'Abaixo do Básico');
   const ilha2 = ts.filter(s => s[statusKey] === 'Básico');
   const ilha3 = ts.filter(s => s[statusKey] === 'Proficiente');
-  function islandCard(num, title, level, role, studentsArr) {
-    return `<div class="island-card island-${num}"><div class="island-header"><div><div class="island-title">${title} · ${studentsArr.length}</div><div style="font-size:0.7rem;opacity:0.7">${level}</div></div><span class="island-role">${role}</span></div><div class="island-body">${studentsArr.length === 0 ? '<div class="island-empty">Nenhum estudante</div>' : studentsArr.map(s => `<span class="student-chip" onclick="editStudent('${s.id}')"><span class="avatar-xs">${s.name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase()}</span> ${s.name.split(' ').slice(0,2).join(' ')}</span>`).join('')}</div></div>`;
-  }
+  function islandCard(num, title, level, role, studentsArr) { return `<div class="island-card island-${num}"><div class="island-header"><div><div class="island-title">${title} · ${studentsArr.length}</div><div style="font-size:0.7rem;opacity:0.7">${level}</div></div><span class="island-role">${role}</span></div><div class="island-body">${studentsArr.length === 0 ? '<div class="island-empty">Nenhum estudante</div>' : studentsArr.map(s => `<span class="student-chip" onclick="editStudent('${s.id}')"><span class="avatar-xs">${s.name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase()}</span> ${s.name.split(' ').slice(0,2).join(' ')}</span>`).join('')}</div></div>`; }
   container.innerHTML = `<div class="islands-grid">${islandCard(1,'Ilha 1','Abaixo do Básico','Professor',ilha1)}${islandCard(2,'Ilha 2','Básico','Monitor',ilha2)}${islandCard(3,'Ilha 3','Proficiente','Autonomia',ilha3)}</div><div style="margin-top:1rem;color:#b4c8e0;font-size:0.75rem">Total: ${ts.length} estudantes</div>`;
 }
-
 // ============ CRUD ============
 function openModal(type) { if(type==='add-student'){document.getElementById('modal-student-title').innerText='Novo estudante';document.getElementById('edit-id').value='';['f-name','f-turma','f-aprendLP','f-aprendMT'].forEach(id=>document.getElementById(id).value='');document.getElementById('f-statusLP').value='Abaixo do Básico';document.getElementById('f-statusMT').value='Abaixo do Básico';} document.getElementById('modal-student').classList.add('open'); }
 function closeModal(type){document.getElementById('modal-'+type).classList.remove('open');}
@@ -651,25 +248,54 @@ function confirmDelete(){if(!deleteTargetId)return;students=students.filter(s=>s
 function exportData(){if(students.length===0){toast('Nenhum dado para exportar','error');return;}const header='TURMA\tESTUDANTE\tAprendizagem Equivalente LP\tStatusLP\tAprendizagem EquivalenteMT\tStatusMT\n';const rows=students.map(s=>[s.turma,s.name,s.aprendLP,s.statusLP,s.aprendMT,s.statusMT].join('\t')).join('\n');const blob=new Blob([header+rows],{type:'text/tab-separated-values'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='ilhas_aprendizagem.csv';a.click();URL.revokeObjectURL(url);toast('Arquivo exportado','success');}
 function clearAll(){if(!confirm('Remover TODOS os dados?'))return;students=[];save();renderDashboard();renderTurmasTable();updateCounts();toast('Dados removidos','success');}
 function toast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';t.style.background=type==='error'?'#b91c1c':'#1f2937';setTimeout(()=>t.style.display='none',3000);}
-
-// ============ CSV IMPORT ============
+// ============ CSV IMPORT (CORRIGIDO) ============
 function handleDragOver(e){e.preventDefault();document.getElementById('drop-zone').classList.add('drag-over');}
 function handleDragLeave(){document.getElementById('drop-zone').classList.remove('drag-over');}
 function handleDrop(e){e.preventDefault();document.getElementById('drop-zone').classList.remove('drag-over');const file=e.dataTransfer.files[0];if(file)processFile(file);}
 function handleFileSelect(e){const file=e.target.files[0];if(file)processFile(file);}
 function processFile(file){const reader=new FileReader();reader.onload=e=>{try{const rows=parseCSV(e.target.result);if(rows.length===0){toast('Nenhum dado encontrado','error');return;}showPreview(rows);}catch(err){toast('Erro: '+err.message,'error');}};reader.readAsText(file,'UTF-8');}
-function parseCSV(text){const lines=text.replace(/\r/g,'').split('\n').filter(l=>l.trim());if(lines.length<2)throw new Error('Arquivo muito curto');const sep=lines[0].includes('\t')?'\t':lines[0].includes(';')?';':',';const headers=lines[0].split(sep).map(h=>h.trim().replace(/['"]/g,''));const findCol=keywords=>headers.findIndex(h=>keywords.some(k=>h.toLowerCase().includes(k.toLowerCase())));const colTurma=findCol(['turma','class','room']);const colName=findCol(['estudante','aluno','nome','name','student']);const colAprendLP=findCol(['aprendizagem equivalente lp','aprendizagem lp','aprendlp','equivalente lp']);const colStatusLP=findCol(['statuslp','status lp','nivel lp']);const colAprendMT=findCol(['aprendizagem equivalente mt','aprendizagem mt','aprendmt','equivalente mt']);const colStatusMT=findCol(['statusmt','status mt','nivel mt']);if(colTurma<0||colName<0)throw new Error('Colunas TURMA e ESTUDANTE obrigatórias');return lines.slice(1).map((line,i)=>{const cells=line.split(sep).map(c=>c.trim().replace(/['"]/g,''));const get=idx=>idx>=0?cells[idx]||'':'';const normalize=s=>{if(!s)return'Abaixo do Básico';const l=s.toLowerCase();if(l.includes('abaixo'))return'Abaixo do Básico';if(l.includes('proficiente'))return'Proficiente';if(l.includes('básico'))return'Básico';return'Abaixo do Básico';};return{id:'import_'+Date.now()+'_'+i,turma:get(colTurma),name:get(colName),aprendLP:get(colAprendLP),statusLP:normalize(get(colStatusLP)),aprendMT:get(colAprendMT),statusMT:normalize(get(colStatusMT))};}).filter(r=>r.name&&r.turma);}
+function parseCSV(text){
+  const lines=text.replace(/\r/g,'').split('\n').filter(l=>l.trim());
+  if(lines.length<2) throw new Error('Arquivo muito curto');
+  const sep=lines[0].includes('\t')?'\t':lines[0].includes(';')?';':',';
+  const headers=lines[0].split(sep).map(h=>h.trim().replace(/['"]/g,''));
+  const findCol=keywords=>headers.findIndex(h=>keywords.some(k=>h.toLowerCase().includes(k.toLowerCase())));
+  // === CORREÇÃO AQUI: adicionamos 'equivalentemt' e 'aprendmt' sem espaços ===
+  const colTurma=findCol(['turma','class','room']);
+  const colName=findCol(['estudante','aluno','nome','name','student']);
+  const colAprendLP=findCol(['aprendizagem equivalente lp','aprendizagem lp','aprendlp','equivalente lp']);
+  const colStatusLP=findCol(['statuslp','status lp','nivel lp']);
+  const colAprendMT=findCol(['aprendizagem equivalente mt','aprendizagem mt','aprendmt','equivalentemt','equivalente mt']);
+  const colStatusMT=findCol(['statusmt','status mt','nivel mt']);
+  if(colTurma<0||colName<0) throw new Error('Colunas TURMA e ESTUDANTE obrigatórias');
+  return lines.slice(1).map((line,i)=>{
+    const cells=line.split(sep).map(c=>c.trim().replace(/['"]/g,''));
+    const get=idx=>idx>=0?cells[idx]||'':'';
+    const normalize=s=>{
+      if(!s) return 'Abaixo do Básico';
+      const l=s.toLowerCase();
+      if(l.includes('abaixo')) return 'Abaixo do Básico';
+      if(l.includes('proficiente')) return 'Proficiente';
+      if(l.includes('básico')) return 'Básico';
+      return 'Abaixo do Básico';
+    };
+    return {
+      id:'import_'+Date.now()+'_'+i,
+      turma:get(colTurma),
+      name:get(colName),
+      aprendLP:get(colAprendLP),
+      statusLP:normalize(get(colStatusLP)),
+      aprendMT:get(colAprendMT),
+      statusMT:normalize(get(colStatusMT))
+    };
+  }).filter(r=>r.name&&r.turma);
+}
 function showPreview(rows){pendingImport=rows;document.getElementById('preview-count').innerText=`${rows.length} estudante(s) encontrado(s)`;const tbody=document.getElementById('preview-tbody');tbody.innerHTML=rows.map((r,i)=>`<tr><td>${i+1}</td><td><strong>${r.name}</strong></td><td>${r.turma}</td><td>${r.aprendLP||'—'}</td><td><span class="badge ${r.statusLP==='Abaixo do Básico'?'badge-abaixo':r.statusLP==='Básico'?'badge-basico':'badge-proficiente'}">${r.statusLP}</span></td><td>${r.aprendMT||'—'}</td><td><span class="badge ${r.statusMT==='Abaixo do Básico'?'badge-abaixo':r.statusMT==='Básico'?'badge-basico':'badge-proficiente'}">${r.statusMT}</span></td></tr>`).join('');document.getElementById('import-preview').style.display='block';document.getElementById('drop-zone').style.display='none';}
 function cancelImport(){pendingImport=[];document.getElementById('import-preview').style.display='none';document.getElementById('drop-zone').style.display='';document.getElementById('csv-file').value='';}
 function confirmImport(){if(pendingImport.length===0)return;const replace=confirm(`Importar ${pendingImport.length} estudantes.\nOK = substituir tudo\nCancelar = adicionar apenas novos`);if(replace){students=pendingImport;}else{const existing=new Set(students.map(s=>s.name+'|'+s.turma));const newOnes=pendingImport.filter(r=>!existing.has(r.name+'|'+r.turma));students=[...students,...newOnes];toast(`${newOnes.length} novos estudantes adicionados`,'success');}save();cancelImport();updateCounts();showView('dashboard');toast('Importação concluída','success');}
-
-// ============ RELATÓRIO PDF (ADICIONADO) ============
+// ============ RELATÓRIO PDF ============
 function gerarRelatorioPDF() {
-  if (students.length === 0) {
-    toast('Nenhum dado para gerar relatório', 'error');
-    return;
-  }
-
+  if (students.length === 0) { toast('Nenhum dado para gerar relatório', 'error'); return; }
   const totalEstudantes = students.length;
   const totalTurmas = new Set(students.map(s => s.turma)).size;
   const abaixoLP = students.filter(s => s.statusLP === 'Abaixo do Básico').length;
@@ -680,80 +306,15 @@ function gerarRelatorioPDF() {
   const proficienteMT = students.filter(s => s.statusMT === 'Proficiente').length;
   const dataAtual = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
   const turmas = [...new Set(students.map(s => s.turma))].sort();
-
-  const htmlRelatorio = `
-    <div style="font-family: 'Inter', 'Playfair Display', sans-serif; max-width: 1100px; margin: 0 auto; background: white; border-radius: 32px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-      <div style="text-align: center; margin-bottom: 2rem; border-bottom: 2px solid #d32f2f; padding-bottom: 1rem;">
-        <img src="https://i.ibb.co/0p01LzxB/logo3de.jpg" style="height: 70px; margin-bottom: 0.5rem;">
-        <h1 style="color: #0a2f6c; font-size: 28px; margin: 0;">Relatório de Ilhas de Aprendizagem</h1>
-        <p style="color: #64748b;">URE-CAIEIRAS · OE-MT & LP</p>
-        <p style="font-size: 12px; color: #64748b;">Emitido em ${dataAtual}</p>
-      </div>
-      
-      <div style="display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 2rem;">
-        <div style="background: #f8fafc; padding: 1rem; border-radius: 20px; text-align: center;"><div style="font-size: 12px; color: #64748b;">Total Estudantes</div><div style="font-size: 32px; font-weight: 800; color: #0a2f6c;">${totalEstudantes}</div></div>
-        <div style="background: #f8fafc; padding: 1rem; border-radius: 20px; text-align: center;"><div style="font-size: 12px; color: #64748b;">Total Turmas</div><div style="font-size: 32px; font-weight: 800; color: #0a2f6c;">${totalTurmas}</div></div>
-        <div style="background: #f8fafc; padding: 1rem; border-radius: 20px; text-align: center;"><div style="font-size: 12px; color: #64748b;">Abaixo do Básico (LP/MT)</div><div style="font-size: 32px; font-weight: 800; color: #d32f2f;">${abaixoLP} / ${abaixoMT}</div></div>
-        <div style="background: #f8fafc; padding: 1rem; border-radius: 20px; text-align: center;"><div style="font-size: 12px; color: #64748b;">Proficiente (LP/MT)</div><div style="font-size: 32px; font-weight: 800; color: #22c55e;">${proficienteLP} / ${proficienteMT}</div></div>
-      </div>
-
-      <h2 style="color: #0a2f6c; font-size: 20px; margin: 1.5rem 0 1rem;">Detalhamento por Turma</h2>
-      ${turmas.map(turma => {
-        const ts = students.filter(s => s.turma === turma);
-        const abbLP = ts.filter(s => s.statusLP === 'Abaixo do Básico').length;
-        const basLP = ts.filter(s => s.statusLP === 'Básico').length;
-        const proLP = ts.filter(s => s.statusLP === 'Proficiente').length;
-        const abbMT = ts.filter(s => s.statusMT === 'Abaixo do Básico').length;
-        const basMT = ts.filter(s => s.statusMT === 'Básico').length;
-        const proMT = ts.filter(s => s.statusMT === 'Proficiente').length;
-        return `
-          <div style="margin-bottom: 1.5rem; border: 1px solid #e0e4e9; border-radius: 24px; overflow: hidden;">
-            <div style="background: #0a2f6c; color: white; padding: 0.75rem 1rem;"><strong>${turma}</strong> (${ts.length} estudantes)</div>
-            <div style="padding: 1rem;">
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-                <div><div style="font-weight:600; margin-bottom:4px;">Língua Portuguesa</div><div style="background:#e2e8f0;height:8px;border-radius:4px;display:flex;overflow:hidden;"><div style="width:${(abbLP/ts.length)*100}%; background:#d32f2f;"></div><div style="width:${(basLP/ts.length)*100}%; background:#0a2f6c;"></div><div style="width:${(proLP/ts.length)*100}%; background:#22c55e;"></div></div><div style="font-size:12px; margin-top:4px;">⬤ Abaixo: ${abbLP} | ⬤ Básico: ${basLP} | ⬤ Prof.: ${proLP}</div></div>
-                <div><div style="font-weight:600; margin-bottom:4px;">Matemática</div><div style="background:#e2e8f0;height:8px;border-radius:4px;display:flex;overflow:hidden;"><div style="width:${(abbMT/ts.length)*100}%; background:#d32f2f;"></div><div style="width:${(basMT/ts.length)*100}%; background:#0a2f6c;"></div><div style="width:${(proMT/ts.length)*100}%; background:#22c55e;"></div></div><div style="font-size:12px; margin-top:4px;">⬤ Abaixo: ${abbMT} | ⬤ Básico: ${basMT} | ⬤ Prof.: ${proMT}</div></div>
-              </div>
-              <details><summary style="cursor:pointer; font-size:13px; color:#0a2f6c;">📋 Lista de estudantes</summary><div style="margin-top:8px; max-height:200px; overflow-y:auto;"><table style="width:100%; font-size:12px; border-collapse:collapse;">${ts.map(s => `<tr><td style="padding:4px; border-bottom:1px solid #e0e4e9;">${s.name}</td><td style="padding:4px;">${s.statusLP}</td><td style="padding:4px;">${s.statusMT}</td></tr>`).join('')}</table></div></details>
-            </div>
-          </div>
-        `;
-      }).join('')}
-
-      <h2 style="color: #0a2f6c; font-size: 20px; margin: 1rem 0 1rem;">Distribuição por Ilhas (LP)</h2>
-      <div style="display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 2rem;">
-        <div style="flex:1; background:#fef2f2; padding:1rem; border-radius:20px; text-align:center;"><strong>Ilha 1 (Abaixo)</strong><br>${abaixoLP} estudantes</div>
-        <div style="flex:1; background:#e6f1fb; padding:1rem; border-radius:20px; text-align:center;"><strong>Ilha 2 (Básico)</strong><br>${basicoLP} estudantes</div>
-        <div style="flex:1; background:#e6f7e6; padding:1rem; border-radius:20px; text-align:center;"><strong>Ilha 3 (Proficiente)</strong><br>${proficienteLP} estudantes</div>
-      </div>
-      
-      <div style="text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e0e4e9; font-size: 10px; color: #64748b;">Documento gerado automaticamente pelo Sistema Ilhas de Aprendizagem · URE-CAIEIRAS</div>
-    </div>
-  `;
-
+  const htmlRelatorio = `<div style="font-family:'Inter','Playfair Display',sans-serif;max-width:1100px;margin:0 auto;background:white;border-radius:32px;padding:2rem;box-shadow:0 10px 30px rgba(0,0,0,0.2);"><div style="text-align:center;margin-bottom:2rem;border-bottom:2px solid #d32f2f;padding-bottom:1rem;"><img src="https://i.ibb.co/0p01LzxB/logo3de.jpg" style="height:70px;margin-bottom:0.5rem;"><h1 style="color:#0a2f6c;font-size:28px;margin:0;">Relatório de Ilhas de Aprendizagem</h1><p style="color:#64748b;">URE-CAIEIRAS · OE-MT & LP</p><p style="font-size:12px;color:#64748b;">Emitido em ${dataAtual}</p></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;"><div style="background:#f8fafc;padding:1rem;border-radius:20px;text-align:center;"><div style="font-size:12px;color:#64748b;">Total Estudantes</div><div style="font-size:32px;font-weight:800;color:#0a2f6c;">${totalEstudantes}</div></div><div style="background:#f8fafc;padding:1rem;border-radius:20px;text-align:center;"><div style="font-size:12px;color:#64748b;">Total Turmas</div><div style="font-size:32px;font-weight:800;color:#0a2f6c;">${totalTurmas}</div></div><div style="background:#f8fafc;padding:1rem;border-radius:20px;text-align:center;"><div style="font-size:12px;color:#64748b;">Abaixo do Básico (LP/MT)</div><div style="font-size:32px;font-weight:800;color:#d32f2f;">${abaixoLP} / ${abaixoMT}</div></div><div style="background:#f8fafc;padding:1rem;border-radius:20px;text-align:center;"><div style="font-size:12px;color:#64748b;">Proficiente (LP/MT)</div><div style="font-size:32px;font-weight:800;color:#22c55e;">${proficienteLP} / ${proficienteMT}</div></div></div><h2 style="color:#0a2f6c;font-size:20px;margin:1.5rem 0 1rem;">Detalhamento por Turma</h2>${turmas.map(turma => { const ts = students.filter(s => s.turma === turma); const abbLP = ts.filter(s => s.statusLP === 'Abaixo do Básico').length; const basLP = ts.filter(s => s.statusLP === 'Básico').length; const proLP = ts.filter(s => s.statusLP === 'Proficiente').length; const abbMT = ts.filter(s => s.statusMT === 'Abaixo do Básico').length; const basMT = ts.filter(s => s.statusMT === 'Básico').length; const proMT = ts.filter(s => s.statusMT === 'Proficiente').length; return `<div style="margin-bottom:1.5rem;border:1px solid #e0e4e9;border-radius:24px;overflow:hidden;"><div style="background:#0a2f6c;color:white;padding:0.75rem 1rem;"><strong>${turma}</strong> (${ts.length} estudantes)</div><div style="padding:1rem;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;"><div><div style="font-weight:600;margin-bottom:4px;">Língua Portuguesa</div><div style="background:#e2e8f0;height:8px;border-radius:4px;display:flex;overflow:hidden;"><div style="width:${(abbLP/ts.length)*100}%; background:#d32f2f;"></div><div style="width:${(basLP/ts.length)*100}%; background:#0a2f6c;"></div><div style="width:${(proLP/ts.length)*100}%; background:#22c55e;"></div></div><div style="font-size:12px;margin-top:4px;">⬤ Abaixo: ${abbLP} | ⬤ Básico: ${basLP} | ⬤ Prof.: ${proLP}</div></div><div><div style="font-weight:600;margin-bottom:4px;">Matemática</div><div style="background:#e2e8f0;height:8px;border-radius:4px;display:flex;overflow:hidden;"><div style="width:${(abbMT/ts.length)*100}%; background:#d32f2f;"></div><div style="width:${(basMT/ts.length)*100}%; background:#0a2f6c;"></div><div style="width:${(proMT/ts.length)*100}%; background:#22c55e;"></div></div><div style="font-size:12px;margin-top:4px;">⬤ Abaixo: ${abbMT} | ⬤ Básico: ${basMT} | ⬤ Prof.: ${proMT}</div></div></div><details><summary style="cursor:pointer;font-size:13px;color:#0a2f6c;">📋 Lista de estudantes</summary><div style="margin-top:8px;max-height:200px;overflow-y:auto;"><table style="width:100%;font-size:12px;border-collapse:collapse;">${ts.map(s => `<tr><td style="padding:4px;border-bottom:1px solid #e0e4e9;">${s.name}</td><td style="padding:4px;">${s.statusLP}</td><td style="padding:4px;">${s.statusMT}</td></tr>`).join('')}</table></div></details></div></div>`; }).join('')}<h2 style="color:#0a2f6c;font-size:20px;margin:1rem 0 1rem;">Distribuição por Ilhas (LP)</h2><div style="display:flex;justify-content:space-between;gap:1rem;margin-bottom:2rem;"><div style="flex:1;background:#fef2f2;padding:1rem;border-radius:20px;text-align:center;"><strong>Ilha 1 (Abaixo)</strong><br>${abaixoLP} estudantes</div><div style="flex:1;background:#e6f1fb;padding:1rem;border-radius:20px;text-align:center;"><strong>Ilha 2 (Básico)</strong><br>${basicoLP} estudantes</div><div style="flex:1;background:#e6f7e6;padding:1rem;border-radius:20px;text-align:center;"><strong>Ilha 3 (Proficiente)</strong><br>${proficienteLP} estudantes</div></div><div style="text-align:center;margin-top:2rem;padding-top:1rem;border-top:1px solid #e0e4e9;font-size:10px;color:#64748b;">Documento gerado automaticamente pelo Sistema Ilhas de Aprendizagem · URE-CAIEIRAS</div></div>`;
   const element = document.createElement('div');
   element.innerHTML = htmlRelatorio;
   element.style.position = 'absolute';
   element.style.left = '-9999px';
   element.style.top = '-9999px';
   document.body.appendChild(element);
-
-  html2pdf().set({
-    margin: { top: 0.5, right: 0.5, bottom: 0.5, left: 0.5 },
-    filename: `Relatorio_Ilhas_${dataAtual.replace(/\//g, '-')}.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, letterRendering: true, useCORS: true },
-    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-  }).from(element).save().then(() => {
-    document.body.removeChild(element);
-    toast('Relatório PDF gerado com sucesso!', 'success');
-  }).catch(err => {
-    console.error(err);
-    document.body.removeChild(element);
-    toast('Erro ao gerar PDF', 'error');
-  });
+  html2pdf().set({ margin: { top: 0.5, right: 0.5, bottom: 0.5, left: 0.5 }, filename: `Relatorio_Ilhas_${dataAtual.replace(/\//g, '-')}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, letterRendering: true, useCORS: true }, jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' } }).from(element).save().then(() => { document.body.removeChild(element); toast('Relatório PDF gerado com sucesso!', 'success'); }).catch(err => { console.error(err); document.body.removeChild(element); toast('Erro ao gerar PDF', 'error'); });
 }
-
 // ============ INIT ============
 renderDashboard(); updateCounts();
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open'));});
