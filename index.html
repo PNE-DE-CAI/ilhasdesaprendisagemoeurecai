@@ -143,7 +143,7 @@
       <!-- IMPORTAR -->
       <div class="view" id="view-importar">
         <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #ffec9e; margin-bottom: 1rem;">Importar dados CSV</h2>
-        <div class="card"><div class="info-box">O arquivo CSV deve conter as colunas: TURMA, ESTUDANTE, Aprendizagem Equivalente LP, StatusLP, Aprendizagem EquivalenteMT, StatusMT (separador vírgula, ponto e vírgula ou TAB).</div><div id="drop-zone" class="drop-zone" onclick="document.getElementById('csv-file').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)"><i class="fas fa-cloud-upload-alt" style="font-size: 2.5rem; color: #94a3b8;"></i><p>Arraste o arquivo CSV aqui ou clique para selecionar</p><input type="file" id="csv-file" accept=".csv,.txt" style="display:none" onchange="handleFileSelect(event)"></div><div id="import-preview" style="display:none; margin-top: 1rem;"><div style="display: flex; justify-content: space-between; align-items: center;"><p><strong id="preview-count"></strong></p><div><button class="btn btn-secondary btn-sm" onclick="cancelImport()">Cancelar</button><button class="btn btn-primary btn-sm" onclick="confirmImport()">Confirmar importação</button></div></div><div class="table-wrap" style="margin-top: 1rem;"><table><thead><tr><th>#</th><th>Estudante</th><th>Turma</th><th>Aprend. LP</th><th>Status LP</th><th>Aprend. MT</th><th>Status MT</th></tr></thead><tbody id="preview-tbody"></tbody></table></div></div></div>
+        <div class="card"><div class="info-box">O arquivo CSV deve conter as colunas (separador ponto e vírgula): <strong>TURMA, Id, ESTUDANTE, (%) Participacao, Aprendizagem Equivalente (LP), Status (LP), Aprendizagem Equivalente (MT), Status (MT)</strong>. As colunas Id e (%) Participacao serão ignoradas. O sistema detecta automaticamente a 1ª coluna "Aprendizagem Equivalente" como LP e a 2ª como MT.</div><div id="drop-zone" class="drop-zone" onclick="document.getElementById('csv-file').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)"><i class="fas fa-cloud-upload-alt" style="font-size: 2.5rem; color: #94a3b8;"></i><p>Arraste o arquivo CSV aqui ou clique para selecionar</p><input type="file" id="csv-file" accept=".csv,.txt" style="display:none" onchange="handleFileSelect(event)"></div><div id="import-preview" style="display:none; margin-top: 1rem;"><div style="display: flex; justify-content: space-between; align-items: center;"><p><strong id="preview-count"></strong></p><div><button class="btn btn-secondary btn-sm" onclick="cancelImport()">Cancelar</button><button class="btn btn-primary btn-sm" onclick="confirmImport()">Confirmar importação</button></div></div><div class="table-wrap" style="margin-top: 1rem;"><table><thead><tr><th>#</th><th>Estudante</th><th>Turma</th><th>Aprend. LP</th><th>Status LP</th><th>Aprend. MT</th><th>Status MT</th></tr></thead><tbody id="preview-tbody"></tbody></table></div></div></div>
       </div>
     </main>
   </div>
@@ -248,51 +248,89 @@ function confirmDelete(){if(!deleteTargetId)return;students=students.filter(s=>s
 function exportData(){if(students.length===0){toast('Nenhum dado para exportar','error');return;}const header='TURMA\tESTUDANTE\tAprendizagem Equivalente LP\tStatusLP\tAprendizagem EquivalenteMT\tStatusMT\n';const rows=students.map(s=>[s.turma,s.name,s.aprendLP,s.statusLP,s.aprendMT,s.statusMT].join('\t')).join('\n');const blob=new Blob([header+rows],{type:'text/tab-separated-values'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='ilhas_aprendizagem.csv';a.click();URL.revokeObjectURL(url);toast('Arquivo exportado','success');}
 function clearAll(){if(!confirm('Remover TODOS os dados?'))return;students=[];save();renderDashboard();renderTurmasTable();updateCounts();toast('Dados removidos','success');}
 function toast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';t.style.background=type==='error'?'#b91c1c':'#1f2937';setTimeout(()=>t.style.display='none',3000);}
-// ============ CSV IMPORT (CORRIGIDO) ============
+
+// ============ CSV IMPORT (ATUALIZADO PARA FORMATO COM COLUNAS DUPLICADAS) ============
 function handleDragOver(e){e.preventDefault();document.getElementById('drop-zone').classList.add('drag-over');}
 function handleDragLeave(){document.getElementById('drop-zone').classList.remove('drag-over');}
 function handleDrop(e){e.preventDefault();document.getElementById('drop-zone').classList.remove('drag-over');const file=e.dataTransfer.files[0];if(file)processFile(file);}
 function handleFileSelect(e){const file=e.target.files[0];if(file)processFile(file);}
 function processFile(file){const reader=new FileReader();reader.onload=e=>{try{const rows=parseCSV(e.target.result);if(rows.length===0){toast('Nenhum dado encontrado','error');return;}showPreview(rows);}catch(err){toast('Erro: '+err.message,'error');}};reader.readAsText(file,'UTF-8');}
+
 function parseCSV(text){
-  const lines=text.replace(/\r/g,'').split('\n').filter(l=>l.trim());
-  if(lines.length<2) throw new Error('Arquivo muito curto');
-  const sep=lines[0].includes('\t')?'\t':lines[0].includes(';')?';':',';
-  const headers=lines[0].split(sep).map(h=>h.trim().replace(/['"]/g,''));
-  const findCol=keywords=>headers.findIndex(h=>keywords.some(k=>h.toLowerCase().includes(k.toLowerCase())));
-  // === CORREÇÃO AQUI: adicionamos 'equivalentemt' e 'aprendmt' sem espaços ===
-  const colTurma=findCol(['turma','class','room']);
-  const colName=findCol(['estudante','aluno','nome','name','student']);
-  const colAprendLP=findCol(['aprendizagem equivalente lp','aprendizagem lp','aprendlp','equivalente lp']);
-  const colStatusLP=findCol(['statuslp','status lp','nivel lp']);
-  const colAprendMT=findCol(['aprendizagem equivalente mt','aprendizagem mt','aprendmt','equivalentemt','equivalente mt']);
-  const colStatusMT=findCol(['statusmt','status mt','nivel mt']);
-  if(colTurma<0||colName<0) throw new Error('Colunas TURMA e ESTUDANTE obrigatórias');
-  return lines.slice(1).map((line,i)=>{
-    const cells=line.split(sep).map(c=>c.trim().replace(/['"]/g,''));
-    const get=idx=>idx>=0?cells[idx]||'':'';
-    const normalize=s=>{
+  const lines = text.replace(/\r/g,'').split('\n').filter(l => {
+    const t = l.trim();
+    if(!t) return false;
+    // Ignora linhas totalmente vazias (apenas separadores)
+    if(t.replace(/[;\t,]/g,'').trim() === '') return false;
+    return true;
+  });
+  if(lines.length < 2) throw new Error('Arquivo muito curto');
+
+  // Detecta separador automaticamente
+  const sep = lines[0].includes('\t') ? '\t' : lines[0].includes(';') ? ';' : ',';
+  const headers = lines[0].split(sep).map(h => h.trim().replace(/['"]/g,''));
+
+  // Encontra TODOS os índices que combinam com as palavras-chave
+  const findAllCols = (keywords) => {
+    const indices = [];
+    headers.forEach((h, i) => {
+      const hl = h.toLowerCase();
+      if(keywords.some(k => hl.includes(k.toLowerCase()))) {
+        indices.push(i);
+      }
+    });
+    return indices;
+  };
+
+  const findCol = (keywords) => headers.findIndex(h => keywords.some(k => h.toLowerCase().includes(k.toLowerCase())));
+
+  const colTurma = findCol(['turma']);
+  const colName  = findCol(['estudante','aluno','nome','name','student']);
+
+  // Para colunas com nomes duplicados, encontra todas as ocorrências:
+  // A 1ª ocorrência de "Aprendizagem Equivalente" = LP, a 2ª = MT
+  // A 1ª ocorrência de "Status" = LP, a 2ª = MT
+  const aprendCols = findAllCols(['aprendizagem equivalente','aprendizagem equivalente lp','aprendizagem equivalente mt','aprendlp','aprendmt','equivalente lp','equivalente mt']);
+  const statusCols = findAllCols(['statuslp','status lp','nivel lp','statusmt','status mt','nivel mt','status']);
+
+  const colAprendLP = aprendCols.length >= 1 ? aprendCols[0] : findCol(['aprendlp','equivalente lp']);
+  const colAprendMT = aprendCols.length >= 2 ? aprendCols[1] : findCol(['aprendmt','equivalentemt','equivalente mt']);
+  const colStatusLP = statusCols.length >= 1 ? statusCols[0] : findCol(['statuslp','status lp']);
+  const colStatusMT = statusCols.length >= 2 ? statusCols[1] : findCol(['statusmt','status mt']);
+
+  if(colTurma < 0 || colName < 0) throw new Error('Colunas TURMA e ESTUDANTE obrigatórias');
+
+  return lines.slice(1).map((line, i) => {
+    const cells = line.split(sep).map(c => c.trim().replace(/['"]/g,''));
+    // Pula linhas onde os campos essenciais ficam vazios
+    if(!cells[colTurma] || !cells[colName]) return null;
+
+    const get = (idx) => idx >= 0 ? (cells[idx] || '') : '';
+    const normalize = (s) => {
       if(!s) return 'Abaixo do Básico';
-      const l=s.toLowerCase();
+      const l = s.toLowerCase();
       if(l.includes('abaixo')) return 'Abaixo do Básico';
       if(l.includes('proficiente')) return 'Proficiente';
-      if(l.includes('básico')) return 'Básico';
+      if(l.includes('básico') || l.includes('basico')) return 'Básico';
       return 'Abaixo do Básico';
     };
+
     return {
-      id:'import_'+Date.now()+'_'+i,
-      turma:get(colTurma),
-      name:get(colName),
-      aprendLP:get(colAprendLP),
-      statusLP:normalize(get(colStatusLP)),
-      aprendMT:get(colAprendMT),
-      statusMT:normalize(get(colStatusMT))
+      id: 'import_' + Date.now() + '_' + i,
+      turma: get(colTurma),
+      name: get(colName),
+      aprendLP: get(colAprendLP),
+      statusLP: normalize(get(colStatusLP)),
+      aprendMT: get(colAprendMT),
+      statusMT: normalize(get(colStatusMT))
     };
-  }).filter(r=>r.name&&r.turma);
+  }).filter(r => r && r.name && r.turma);
 }
+
 function showPreview(rows){pendingImport=rows;document.getElementById('preview-count').innerText=`${rows.length} estudante(s) encontrado(s)`;const tbody=document.getElementById('preview-tbody');tbody.innerHTML=rows.map((r,i)=>`<tr><td>${i+1}</td><td><strong>${r.name}</strong></td><td>${r.turma}</td><td>${r.aprendLP||'—'}</td><td><span class="badge ${r.statusLP==='Abaixo do Básico'?'badge-abaixo':r.statusLP==='Básico'?'badge-basico':'badge-proficiente'}">${r.statusLP}</span></td><td>${r.aprendMT||'—'}</td><td><span class="badge ${r.statusMT==='Abaixo do Básico'?'badge-abaixo':r.statusMT==='Básico'?'badge-basico':'badge-proficiente'}">${r.statusMT}</span></td></tr>`).join('');document.getElementById('import-preview').style.display='block';document.getElementById('drop-zone').style.display='none';}
 function cancelImport(){pendingImport=[];document.getElementById('import-preview').style.display='none';document.getElementById('drop-zone').style.display='';document.getElementById('csv-file').value='';}
 function confirmImport(){if(pendingImport.length===0)return;const replace=confirm(`Importar ${pendingImport.length} estudantes.\nOK = substituir tudo\nCancelar = adicionar apenas novos`);if(replace){students=pendingImport;}else{const existing=new Set(students.map(s=>s.name+'|'+s.turma));const newOnes=pendingImport.filter(r=>!existing.has(r.name+'|'+r.turma));students=[...students,...newOnes];toast(`${newOnes.length} novos estudantes adicionados`,'success');}save();cancelImport();updateCounts();showView('dashboard');toast('Importação concluída','success');}
+
 // ============ RELATÓRIO PDF ============
 function gerarRelatorioPDF() {
   if (students.length === 0) { toast('Nenhum dado para gerar relatório', 'error'); return; }
